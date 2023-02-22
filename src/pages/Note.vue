@@ -1,13 +1,13 @@
 <template>
   <div>
-    <Menu></Menu>
+    <editor></editor>
   </div>
 </template>
 
 <script>
-import Menu from "../components/Menu.vue";
+import Editor from "@/components/editorDemo.vue";
 export default {
-  components: {Menu},
+  components: {Editor},
   name: "Note"
 }
 </script>
