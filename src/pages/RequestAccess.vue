@@ -5,8 +5,8 @@
       <v-col cols="2" class="pa-0">
         <Menu></Menu>
       </v-col>
-      <v-col cols="10" class="pa-0">
-        <Editor></Editor>
+      <v-col cols="10" class="pa-0" style="background-color: #99CCFF ">
+        <NotePwdCard/>
       </v-col>
     </v-row>
   </div>
@@ -16,10 +16,12 @@
 import Editor from "@/components/editorDemo.vue";
 import Topbar from "@/components/topbar.vue";
 import Menu from "@/components/Menu.vue";
+import NotePwdCard from "@/components/NotePwdCard.vue";
 export default {
-  components: {Menu, Topbar, Editor},
+  components: {NotePwdCard, Menu, Topbar, Editor},
   name: "Note"
 }
 </script>
+
 <style scoped>
 </style>

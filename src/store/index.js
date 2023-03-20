@@ -4,7 +4,9 @@ const store = createStore({
     state: {
         // host: "http://127.0.0.1:8000/api/",
         host: "http://note.chnnhc.com/api/",
-        token: null
+        token: null,
+        currentNote: null,
+        currentNotePwd: null
     },
     getters: {
         getToken() {
@@ -13,6 +15,12 @@ const store = createStore({
         },
         getUsername() {
             return localStorage.getItem("username");
+        },
+        getCurrentNote(){
+            return localStorage.getItem("currentNote")
+        },
+        getCurrentNotePwd(){
+            return localStorage.getItem("currentNotePwd")
         }
     },
 
@@ -23,11 +31,23 @@ const store = createStore({
         del_token() {
             localStorage.removeItem("token");
         },
-        set_username(state, token) {
-            localStorage.setItem("username", token);
+        set_username(state, username) {
+            localStorage.setItem("username", username);
         },
         del_username() {
             localStorage.removeItem("username");
+        },
+        set_currentnote(state, noteid) {
+            localStorage.setItem("currentNote", noteid);
+        },
+        del_currentnote(){
+            localStorage.removeItem("currentNote");
+        },
+        set_currentnotepwd(state, pwd) {
+            localStorage.setItem("currentNotePwd", pwd);
+        },
+        del_currentnotepwd(){
+            localStorage.removeItem("currentNotePwd");
         }
     },
     actions: {
