@@ -7,11 +7,12 @@
         </v-col>
         <v-col cols="8" class="right-side">
           <v-row no-gutters style="margin-bottom: 10px">
-            <v-col cols="4" class="input-label"> <p style="margin-right: 30px">Username:</p> </v-col>
+            <v-col cols="4" class="input-label"> <p style="margin-right: 30px">Email:</p> </v-col>
             <v-col cols="8">
               <v-text-field
                   class="input-field"
                   hide-details="auto"
+                  v-model="email"
                   solo
               />
             </v-col>
@@ -24,6 +25,7 @@
                   hide-details="auto"
                   solo
                   type="password"
+                  v-model="password"
               />
             </v-col>
           </v-row>
