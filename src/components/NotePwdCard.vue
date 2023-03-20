@@ -18,7 +18,7 @@
     <v-row>
       <v-col cols="3"></v-col>
       <v-col cols="2" class="text-left">
-        <p>Hint</p>
+        <p>Hint: {{hint}}</p>
       </v-col>
       <v-col cols="2" class="text-center">
         <v-btn text color="primary">Cancel</v-btn>
@@ -32,15 +32,28 @@
 
 <script>
 import { useStore } from 'vuex';
+import {onMounted, ref} from "vue";
+import axios from "axios";
 export default {
   name: "NotePwdCard",
   setup() {
     const store = useStore();
     const currentNote = store.getters.getCurrentNote;
+    const hint = ref();
 
-    function getHint(){
+    onMounted(() => {
+      axios.get(store.state.host + 'showHint?note_id=' + currentNote)
+          .then(response => {
+            hint.value = response.data.data;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+    });
 
-    }
+    return {
+      hint,
+    };
   }
 
 }
