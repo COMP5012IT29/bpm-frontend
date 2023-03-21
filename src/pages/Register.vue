@@ -6,25 +6,25 @@
           <v-row no-gutters style="margin-bottom: 10px">
             <v-col cols="4" class="input-label"> <p style="margin-right: 80px">Username:</p> </v-col>
             <v-col cols="8">
-              <v-text-field class="input-field" hide-details="auto" solo />
+              <v-text-field v-model="username" class="input-field" hide-details="auto" solo />
             </v-col>
           </v-row>
           <v-row no-gutters  style="margin-bottom: 10px">
             <v-col cols="4" class="input-label"> <p style="margin-right: 80px">Password:</p> </v-col>
             <v-col cols="8">
-              <v-text-field class="input-field" hide-details="auto" solo type="password" />
+              <v-text-field v-model="password" class="input-field" hide-details="auto" solo type="password" />
             </v-col>
           </v-row>
           <v-row no-gutters style="margin-bottom: 10px">
             <v-col cols="4" class="input-label"> <p style="margin-right: 80px">Email:</p> </v-col>
             <v-col cols="8">
-              <v-text-field class="input-field" hide-details="auto" solo type="email" />
+              <v-text-field v-model="email" class="input-field" hide-details="auto" solo type="email" />
             </v-col>
           </v-row>
           <v-row no-gutters style="margin-bottom: 10px">
             <v-col cols="4" class="input-label"> <p style="margin-right: 80px">Phone:</p> </v-col>
             <v-col cols="8">
-              <v-text-field class="input-field" hide-details="auto" solo />
+              <v-text-field v-model="phone" class="input-field" hide-details="auto" solo />
             </v-col>
           </v-row>
           <v-row no-gutters>
@@ -32,7 +32,7 @@
               <v-btn class="reset-btn" block small>Reset</v-btn>
             </v-col>
             <v-col cols="1" offset="3">
-              <v-btn class="save-btn" block small>Save</v-btn>
+              <v-btn class="save-btn" @click="register" block small>Save</v-btn>
             </v-col>
           </v-row>
         </v-col>
@@ -48,10 +48,12 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import router from "@/router";
+import {useStore} from "vuex";
 
 export default {
   name: 'Register',
   setup() {
+    const store = useStore();
     const username = ref('');
     const password = ref('');
     const email = ref('');
@@ -59,14 +61,20 @@ export default {
 
     async function register() {
       try {
-        const response = await axios.post(store.state.host + 'login/', {
+        const response = await axios.post(store.state.host + 'signup/', {
           username: username.value,
           password: password.value,
           email: email.value,
           phone: phone.value,
         });
-        if (response.data.msg === 'Success') {
+        if (response.data.msg === 'success') {
           alert('注册成功');
+          setTimeout(() => {
+            router.go(-1);
+          }, 500);
+        }
+        else{
+          alert(response.data.msg)
         }
       } catch (error) {
         console.log(error);

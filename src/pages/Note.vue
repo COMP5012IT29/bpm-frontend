@@ -12,7 +12,7 @@
           <v-row style="width: 1000px">
             <v-text-field class="ma-2" v-model="note.hint" label="Password Hint" dense></v-text-field>
             <v-text-field class="ma-2" v-model="note.password" label="Password" dense></v-text-field>
-            <v-btn color="red" text @click="deleteNote()">Delete</v-btn>
+            <v-btn color="red" text @click="recycleNote">Delete</v-btn>
             <v-btn color="green" text @click="saveNote">Save</v-btn>
           </v-row>
         </div>
@@ -29,6 +29,7 @@ import {onMounted, ref} from "vue";
 import axios from "axios";
 import {useStore} from "vuex";
 import NoteInfo from "@/components/NoteInfo.vue";
+import router from "@/router";
 
 export default {
   components: {NoteInfo, Menu, Topbar, Editor},
@@ -90,17 +91,36 @@ export default {
               "tag":note.value.tag,
             }
         );
-        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
     };
+
+    function recycleNote(){
+        const response = axios.post(store.state.host + 'recycle/',
+            {
+              "note_id": parseInt(store.getters.getCurrentNote)
+            }
+        ).then(response => {
+          if(response.data.msg==='success'){
+            alert('Successfully put the note in the trash')
+            setTimeout(() => {
+              store.commit('del_currentnotepwd')
+              store.commit('del_currentnote')
+              router.push('/newnote');
+            }, 500);
+          }
+        }).catch(error => {
+          console.log(error);
+        });
+      }
 
     return {
       note,
       onNoteUpdate,
       saveNote,
       onContentUpdate,
+      recycleNote,
     }
   }
 }

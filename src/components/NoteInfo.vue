@@ -6,6 +6,7 @@
             hide-details="auto"
             solo
             v-model="note.title"
+            placeholder="title"
         />
       </v-col>
 
@@ -18,6 +19,7 @@
             hide-details="auto"
             solo
             v-model="note.tag"
+            placeholder="tag"
         />
       </v-col>
       <v-col cols="1"></v-col>

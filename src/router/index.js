@@ -8,6 +8,7 @@ import RequestAccess from "@/pages/RequestAccess.vue";
 import NewNote from "@/pages/NewNote.vue";
 import {useStore} from "vuex";
 import Search from "@/pages/Search.vue";
+import RecyclePage from "@/pages/RecyclePage.vue";
 
 
 const routes = [
@@ -50,6 +51,12 @@ const routes = [
         component: Search,
         meta: { requiresAuth: true }
     },
+    {
+        path: '/delete',
+        name: 'deleted note',
+        component: RecyclePage,
+        meta: { requiresAuth: true }
+    }
 ]
 
 const router = createRouter({
@@ -65,7 +72,7 @@ function isLoggedIn() {
 
 // Add a global beforeEach guard
 router.beforeEach((to, from, next) => {
-    if (to.name !== 'Login' && !isLoggedIn())  next({ name: 'Login' })
+    if ( (to.name !== 'Login'&&to.name !== 'Register') && !isLoggedIn())  next({ name: 'Login' })
     else next()
 })
 

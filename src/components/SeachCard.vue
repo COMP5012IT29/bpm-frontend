@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-list>
-<!--      <v-list-item v-for="note in searchResults" :key="note.id" >-->
         <v-list-item v-for="note in searchResults" :key="note.id" @click="set_currentnote(note.id)">
         <v-list-item-title>{{ note.title }}</v-list-item-title>
         <v-list-item-subtitle>{{ note.date }} - {{ note.tag }}</v-list-item-subtitle>
@@ -12,7 +11,7 @@
 
 <script>
 import axios from 'axios';
-import {ref, onMounted, onActivated, watch, watchEffect, computed} from 'vue';
+import {ref, onMounted, onActivated, watch, watchEffect, computed, reactive} from 'vue';
 import { useStore } from 'vuex';
 import router from "@/router";
 export default {
@@ -28,9 +27,6 @@ export default {
     onMounted(() => {
       performSearch();
     });
-    onMounted(() => {
-      performSearch();
-    });
     const performSearch = async () => {
       let type = -1
       if(searchType.value==='Title')
@@ -43,7 +39,7 @@ export default {
     };
     const searchNotes = async (type, keyword) => {
       try {
-        const response = await axios.post('http://note.chnnhc.com/api/search/', {
+        const response = await axios.post(store.state.host + 'search/', {
           'type':parseInt(type, 10),
           'keyword':keyword,
         });

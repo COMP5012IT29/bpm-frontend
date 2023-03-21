@@ -63,7 +63,7 @@ export default {
               "tag":note.value.tag,
             }
         );
-        console.log(response.data);
+        alert('Successfully add new note')
       } catch (error) {
         console.error(error);
       }

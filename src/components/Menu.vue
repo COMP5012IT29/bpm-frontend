@@ -14,18 +14,18 @@
         <v-list-item-title style="text-align: center;">{{ note.title }}</v-list-item-title>
       </v-list-item>
     </v-list>
-    <div class="menu-buttons">
+    <div class="menu-buttons" @click="gotoDeletePage">
       <v-btn class="menu-button" color="secondary">
         <v-icon left>
           mdi-delete-forever
         </v-icon>
         Recycle
       </v-btn>
-      <v-btn class="menu-button" v-show="!starKindNote" @click="switchStarList" color="primary">
+      <v-btn class="menu-button" v-show="starKindNote" @click="switchStarList" color="primary">
         <v-icon left>mdi-book</v-icon>
         Note
       </v-btn>
-      <v-btn class="menu-button" v-show="starKindNote" @click="switchStarList" color="yellow">
+      <v-btn class="menu-button" v-show="!starKindNote" @click="switchStarList" color="yellow">
         <v-icon left>mdi-star</v-icon>
         Star
       </v-btn>
@@ -89,12 +89,16 @@ export default {
       }
     }
 
+    function gotoDeletePage(){
+      router.push('/delete')
+    }
     return {
       notes: computedNotes,
       set_currentnote,
       starKindNote: isStarKindNote,
       switchStarList,
       sortList,
+      gotoDeletePage,
     };
   },
 };
