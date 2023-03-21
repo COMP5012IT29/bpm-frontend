@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import Editor from "@/components/editorDemo.vue";
+import Editor from "@/components/CurNoteEditor.vue";
 import Topbar from "@/components/topbar.vue";
 import Menu from "@/components/Menu.vue";
 import NotePwdCard from "@/components/NotePwdCard.vue";

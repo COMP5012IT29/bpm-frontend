@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Editor from "@/components/editorDemo.vue";
+import Editor from "@/components/CurNoteEditor.vue";
 import Topbar from "@/components/topbar.vue";
 import Menu from "@/components/Menu.vue";
 import {onMounted, ref} from "vue";
@@ -48,14 +48,8 @@ export default {
       });
     });
 
-    function updateContent(newContent) {
-      // this.note.content = newContent;
-    }
-
-
     return {
       note,
-      updateContent
     }
   }
 }
