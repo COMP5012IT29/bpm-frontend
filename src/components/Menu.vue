@@ -1,6 +1,6 @@
 <template>
   <div class="menu">
-    <v-btn color="transparent" style="margin-bottom: 10px">
+    <v-btn color="transparent" @click="sortList" style="margin-bottom: 10px">
       <v-icon>mdi-sort</v-icon>
     </v-btn>
     <v-list class="menu-list">
@@ -25,7 +25,7 @@
         <v-icon left>mdi-book</v-icon>
         Note
       </v-btn>
-      <v-btn class="menu-button" v-show="starKindNote" color="primary">
+      <v-btn class="menu-button" v-show="starKindNote" @click="switchStarList" color="yellow">
         <v-icon left>mdi-star</v-icon>
         Star
       </v-btn>
@@ -35,7 +35,7 @@
 
 <script>
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import router from "@/router";
 export default {
@@ -43,17 +43,25 @@ export default {
     const notes = ref([]);
     const store = useStore();
     const username = store.getters.getUsername;
-    let starKindNote = false;
+    const starKindNote = ref(false);
+    const isStarKindNote = computed(() => starKindNote.value);
+    const computedNotes = computed(() => notes.value);
+    const ascendingOrder = ref(true);
 
     onMounted(() => {
-      axios.get(store.state.host + 'showNoteList?username=' + username+ '&type=1')
+      getNoteList(1)
+    });
+
+    function getNoteList(type){
+      axios.get(store.state.host + 'showNoteList?username=' + username + '&type=' + type)
           .then(response => {
             notes.value = response.data.data;
+
           })
           .catch(error => {
             console.log(error);
           });
-    });
+    }
 
     function set_currentnote(noteid) {
       store.commit('set_currentnote', noteid);
@@ -61,15 +69,32 @@ export default {
     }
 
     function switchStarList(){
-      console.log('switch!')
-      starKindNote = !starKindNote
+      starKindNote.value = !starKindNote.value
+
+      if(starKindNote.value===false) {
+        getNoteList(1)
+      }
+      if(starKindNote.value===true){
+        getNoteList(2)
+      }
+    }
+
+    function sortList(){
+      ascendingOrder.value = !ascendingOrder.value;
+
+      if (ascendingOrder.value) {
+        notes.value.sort((a, b) => a.id - b.id); // 升序排列
+      } else {
+        notes.value.sort((a, b) => b.id - a.id); // 降序排列
+      }
     }
 
     return {
-      notes,
+      notes: computedNotes,
       set_currentnote,
-      starKindNote,
+      starKindNote: isStarKindNote,
       switchStarList,
+      sortList,
     };
   },
 };
