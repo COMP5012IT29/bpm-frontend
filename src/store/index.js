@@ -6,7 +6,9 @@ const store = createStore({
         host: "http://note.chnnhc.com/api/",
         token: null,
         currentNote: null,
-        currentNotePwd: null
+        currentNotePwd: null,
+        keyword: null,
+        type: null,
     },
     getters: {
         getToken() {
@@ -21,7 +23,13 @@ const store = createStore({
         },
         getCurrentNotePwd(){
             return localStorage.getItem("currentNotePwd")
-        }
+        },
+        getKeyword() {
+            return localStorage.getItem("keyword");
+        },
+        getType() {
+            return localStorage.getItem("type");
+        },
     },
 
     mutations: {
@@ -48,7 +56,20 @@ const store = createStore({
         },
         del_currentnotepwd(){
             localStorage.removeItem("currentNotePwd");
-        }
+        },
+        set_keyword(state, keyword) {
+            localStorage.setItem("keyword", keyword);
+        },
+        del_keyword() {
+            localStorage.removeItem("keyword");
+        },
+        set_type(state, type) {
+            localStorage.setItem("type", type);
+        },
+        del_type() {
+            localStorage.removeItem("type");
+        },
+
     },
     actions: {
         // 定义 store 的 actions

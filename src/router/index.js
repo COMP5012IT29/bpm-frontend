@@ -7,6 +7,7 @@ import Note from "../pages/Note.vue";
 import RequestAccess from "@/pages/RequestAccess.vue";
 import NewNote from "@/pages/NewNote.vue";
 import {useStore} from "vuex";
+import Search from "@/pages/Search.vue";
 
 
 const routes = [
@@ -42,7 +43,13 @@ const routes = [
         name: 'new note',
         component: NewNote,
         meta: { requiresAuth: true }
-    }
+    },
+    {
+        path: '/search',
+        name: 'search note',
+        component: Search,
+        meta: { requiresAuth: true }
+    },
 ]
 
 const router = createRouter({

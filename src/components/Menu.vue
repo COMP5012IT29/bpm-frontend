@@ -21,9 +21,13 @@
         </v-icon>
         Recycle
       </v-btn>
-      <v-btn class="menu-button" color="primary">
+      <v-btn class="menu-button" v-show="!starKindNote" @click="switchStarList" color="primary">
         <v-icon left>mdi-book</v-icon>
         Note
+      </v-btn>
+      <v-btn class="menu-button" v-show="starKindNote" color="primary">
+        <v-icon left>mdi-star</v-icon>
+        Star
       </v-btn>
     </div>
   </div>
@@ -39,6 +43,7 @@ export default {
     const notes = ref([]);
     const store = useStore();
     const username = store.getters.getUsername;
+    let starKindNote = false;
 
     onMounted(() => {
       axios.get(store.state.host + 'showNoteList?username=' + username+ '&type=1')
@@ -55,9 +60,16 @@ export default {
       router.push('/pwd');
     }
 
+    function switchStarList(){
+      console.log('switch!')
+      starKindNote = !starKindNote
+    }
+
     return {
       notes,
       set_currentnote,
+      starKindNote,
+      switchStarList,
     };
   },
 };
