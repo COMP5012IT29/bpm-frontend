@@ -55,6 +55,9 @@ export default {
           note.value.password = store.getters.getCurrentNotePwd
           note.value.content = note.value.content || '';
         }
+        else if (res.data.msg === 'Wrong password'){
+          alert('Wrong password')
+        }
       }).catch((err) => {
         console.log(err);
       });

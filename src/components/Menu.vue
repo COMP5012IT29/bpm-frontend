@@ -83,9 +83,9 @@ export default {
       ascendingOrder.value = !ascendingOrder.value;
 
       if (ascendingOrder.value) {
-        notes.value.sort((a, b) => a.id - b.id); // 升序排列
+        notes.value.sort((a, b) => a.id - b.id);
       } else {
-        notes.value.sort((a, b) => b.id - a.id); // 降序排列
+        notes.value.sort((a, b) => b.id - a.id);
       }
     }
 

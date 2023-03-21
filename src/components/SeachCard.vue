@@ -12,7 +12,7 @@
 
 <script>
 import axios from 'axios';
-import {ref, onMounted, onActivated, watch, watchEffect} from 'vue';
+import {ref, onMounted, onActivated, watch, watchEffect, computed} from 'vue';
 import { useStore } from 'vuex';
 import router from "@/router";
 export default {
@@ -22,6 +22,7 @@ export default {
     const searchType = ref(store.getters.getType);
     const keyword = ref(store.getters.getKeyword);
     const searchResults = ref([]);
+    const computedSearchResults = computed(() => searchResults.value);
 
 
     onMounted(() => {
@@ -65,7 +66,7 @@ export default {
       searchNotes,
       searchType,
       keyword,
-      searchResults,
+      searchResults: computedSearchResults,
       performSearch,
       set_currentnote,
     };
