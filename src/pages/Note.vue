@@ -6,7 +6,8 @@
         <Menu></Menu>
       </v-col>
       <v-col cols="10" class="pa-0">
-        <Editor></Editor>
+        <note-info :note="note"></note-info>
+        <Editor :note="note"></Editor>
       </v-col>
     </v-row>
   </div>
@@ -16,10 +17,49 @@
 import Editor from "@/components/editorDemo.vue";
 import Topbar from "@/components/topbar.vue";
 import Menu from "@/components/Menu.vue";
+import {onMounted, ref} from "vue";
+import axios from "axios";
+import {useStore} from "vuex";
+import NoteInfo from "@/components/NoteInfo.vue";
+
 export default {
-  components: {Menu, Topbar, Editor},
-  name: "Note"
+  components: {NoteInfo, Menu, Topbar, Editor},
+  name: "Note",
+  setup() {
+    const store = useStore();
+    const note = ref({
+      title: "",
+      content: "",
+      tag: "",
+      date: "",
+      stared: false
+    });
+
+    onMounted(() => {
+      axios.post(store.state.host + 'viewNote/', {
+        note_id: store.getters.getCurrentNote,
+        password: store.getters.getCurrentNotePwd,
+      }).then((res) => {
+        if (res.data.msg === 'success') {
+          note.value = res.data.data
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
+    });
+
+    function updateContent(newContent) {
+      // this.note.content = newContent;
+    }
+
+
+    return {
+      note,
+      updateContent
+    }
+  }
 }
 </script>
+
 <style scoped>
 </style>
