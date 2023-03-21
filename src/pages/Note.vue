@@ -91,6 +91,8 @@ export default {
               "tag":note.value.tag,
             }
         );
+        alert('Successfully add new note')
+        router.go(0);
       } catch (error) {
         console.error(error);
       }

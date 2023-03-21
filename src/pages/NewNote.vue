@@ -29,6 +29,7 @@ import { onMounted, ref } from "vue";
 import axios from "axios";
 import { useStore } from "vuex";
 import NoteInfo from "@/components/NewNoteInfo.vue";
+import router from "@/router";
 
 export default {
   components: { NoteInfo, Menu, Topbar, Editor },
@@ -64,6 +65,7 @@ export default {
             }
         );
         alert('Successfully add new note')
+        router.go(0);
       } catch (error) {
         console.error(error);
       }

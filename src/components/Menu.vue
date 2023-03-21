@@ -14,8 +14,8 @@
         <v-list-item-title style="text-align: center;">{{ note.title }}</v-list-item-title>
       </v-list-item>
     </v-list>
-    <div class="menu-buttons" @click="gotoDeletePage">
-      <v-btn class="menu-button" color="secondary">
+    <div class="menu-buttons">
+      <v-btn class="menu-button" color="secondary" @click="gotoDeletePage">
         <v-icon left>
           mdi-delete-forever
         </v-icon>

@@ -68,7 +68,7 @@ export default {
           phone: phone.value,
         });
         if (response.data.msg === 'success') {
-          alert('注册成功');
+          alert('Register successfully');
           setTimeout(() => {
             router.go(-1);
           }, 500);
@@ -78,7 +78,7 @@ export default {
         }
       } catch (error) {
         console.log(error);
-        alert('注册失败');
+        alert('Registration failed');
       }
     }
     function backtoLogin() {
@@ -161,6 +161,3 @@ export default {
   right: 100px;
 }
 </style>
-
-
-

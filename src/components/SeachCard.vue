@@ -1,11 +1,14 @@
 <template>
   <div>
-    <v-list>
+    <v-list v-if="searchResults.length">
         <v-list-item v-for="note in searchResults" :key="note.id" @click="set_currentnote(note.id)">
         <v-list-item-title>{{ note.title }}</v-list-item-title>
         <v-list-item-subtitle>{{ note.date }} - {{ note.tag }}</v-list-item-subtitle>
       </v-list-item>
     </v-list>
+    <div v-else class="empty-result">
+      <h3>Search result is empty</h3>
+    </div>
   </div>
 </template>
 
@@ -71,5 +74,11 @@ export default {
 </script>
 
 <style scoped>
-
+.empty-result {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  min-height: 200px;
+}
 </style>
