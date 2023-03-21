@@ -1,21 +1,13 @@
-<!-- CurNoteEditor.vue -->
 <template>
   <div style="height: 700px">
     <MdEditor style="height: 100%;" v-model="content" :locale="'en'" />
-    <div style="position: absolute; bottom: 20px; right: 20px;">
-      <v-row style="width: 600px">
-        <v-text-field v-model="password" label="Password" dense></v-text-field>
-        <v-btn color="red" text @click="deleteNote()">Delete</v-btn>
-        <v-btn color="green" text @click="saveNote()">Save</v-btn>
-      </v-row>
-    </div>
   </div>
 </template>
 
 <script>
 import MdEditor from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
-import { ref, watchEffect } from 'vue';
+import {ref, watchEffect, defineEmits, watch} from 'vue';
 import {useStore} from "vuex";
 
 export default {
@@ -25,21 +17,26 @@ export default {
   props: {
     note: {
       type: Object,
-      default: () => ({}),
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const store = useStore();
     const content = ref(props.note.content);
-    const password = store.getters.getCurrentNotePwd;
+    defineEmits(['updateContent']);
 
-    watchEffect(() => {
-      content.value = props.note.content;
+    watch(() => props.note.content, (newContent) => {
+      content.value = newContent;
     });
 
+    watch(content, () => {
+      emitUpdateContent();
+    });
+
+    function emitUpdateContent() {
+      emit('updateContent', content.value);
+    }
     return {
       content,
-      password,
     };
   },
 };

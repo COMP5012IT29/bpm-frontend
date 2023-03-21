@@ -6,8 +6,16 @@
         <Menu></Menu>
       </v-col>
       <v-col cols="10" class="pa-0">
-        <note-info :note="note"></note-info>
-        <Editor :note="note"></Editor>
+        <note-info :note="note" @updateNote="onNoteUpdate">></note-info>
+        <Editor :note="note" @updateContent="onContentUpdate"></Editor>
+        <div style="position: absolute; bottom: 20px; right: 20px;">
+          <v-row style="width: 1000px">
+            <v-text-field class="ma-2" v-model="note.hint" label="Password Hint" dense></v-text-field>
+            <v-text-field class="ma-2" v-model="note.password" label="Password" dense></v-text-field>
+            <v-btn color="red" text @click="deleteNote()">Delete</v-btn>
+            <v-btn color="green" text @click="saveNote">Save</v-btn>
+          </v-row>
+        </div>
       </v-col>
     </v-row>
   </div>
@@ -32,7 +40,9 @@ export default {
       content: "",
       tag: "",
       date: "",
-      stared: false
+      stared: false,
+      password: store.getters.getCurrentNotePwd,
+      hint:""
     });
 
     onMounted(() => {
@@ -42,18 +52,59 @@ export default {
       }).then((res) => {
         if (res.data.msg === 'success') {
           note.value = res.data.data
+          note.value.password = store.getters.getCurrentNotePwd
+          note.value.content = note.value.content || '';
         }
       }).catch((err) => {
         console.log(err);
       });
+
+      axios.get(store.state.host + 'showHint?note_id=' + store.getters.getCurrentNote)
+          .then(response => {
+            note.value.hint = response.data.data;
+          })
+          .catch(error => {
+            console.log(error);
+          });
     });
+
+    function onNoteUpdate(updatedNote) {
+      note.value = updatedNote;
+    }
+    function onContentUpdate(updatedContent) {
+      note.value.content = updatedContent;
+    }
+
+    const saveNote = async () => {
+      try {
+        const response = await axios.post(store.state.host + 'editNote/',
+            {
+              "note_id": store.getters.getCurrentNote,
+              "password":note.value.password,
+              "title":note.value.title,
+              "content":note.value.content,
+              "hint":note.value.hint,
+              "tag":note.value.tag,
+            }
+        );
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     return {
       note,
+      onNoteUpdate,
+      saveNote,
+      onContentUpdate,
     }
   }
 }
 </script>
 
 <style scoped>
+.v-btn{
+  margin:10px;
+}
 </style>

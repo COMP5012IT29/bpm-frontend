@@ -33,6 +33,7 @@
 import axios from 'axios';
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import router from "@/router";
 export default {
   setup() {
     const notes = ref([]);
@@ -51,6 +52,7 @@ export default {
 
     function set_currentnote(noteid) {
       store.commit('set_currentnote', noteid);
+      router.push('/pwd');
     }
 
     return {

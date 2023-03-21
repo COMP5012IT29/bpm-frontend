@@ -3,7 +3,7 @@
     <v-btn icon >
       <v-icon>mdi-menu</v-icon>
     </v-btn>
-    <v-btn icon>
+    <v-btn icon @click="newNote">
       <v-icon>mdi-plus</v-icon>
     </v-btn>
     <v-spacer></v-spacer>
@@ -20,6 +20,28 @@
     </v-btn>
   </v-app-bar>
 </template>
+
+<script>
+import { ref } from 'vue';
+import { useStore } from 'vuex';
+import axios from "axios";
+import router from "@/router";
+export default {
+  name: 'topbar',
+  setup() {
+    const store = useStore();
+    function newNote(){
+      store.commit('del_currentnotepwd');
+      store.commit('del_currentnote');
+      router.push('/newnote');
+    }
+    return {
+      newNote,
+    }
+  },
+}
+
+</script>
 
 <style scoped>
 .v-app-bar {

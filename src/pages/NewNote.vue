@@ -7,11 +7,11 @@
       </v-col>
       <v-col cols="10" class="pa-0">
         <note-info :note="note" @updateNote="onNoteUpdate">></note-info>
-        <Editor :note="note" @updateNote2="onNoteUpdate2"></Editor>
+        <Editor :note="note" @updateContent="onContentUpdate"></Editor>
         <div style="position: absolute; bottom: 20px; right: 20px;">
           <v-row style="width: 1000px">
-            <v-text-field class="ma-2" v-model="hint" label="Password Hint" dense></v-text-field>
-            <v-text-field class="ma-2" v-model="password" label="Password" dense></v-text-field>
+            <v-text-field class="ma-2" v-model="note.hint" label="Password Hint" dense></v-text-field>
+            <v-text-field class="ma-2" v-model="note.password" label="Password" dense></v-text-field>
             <v-btn color="red" text @click="deleteNote()">Delete</v-btn>
             <v-btn color="green" text @click="saveNote">Save</v-btn>
           </v-row>
@@ -47,10 +47,10 @@ export default {
     function onNoteUpdate(updatedNote) {
       note.value = updatedNote;
     }
-    function onNoteUpdate2({ content, password }) {
-      note.value.content = content;
-      note.value.password = password;
+    function onContentUpdate(updatedContent) {
+      note.value.content = updatedContent;
     }
+
     const saveNote = async () => {
       try {
         const response = await axios.post(store.state.host + 'upload/',
@@ -72,7 +72,7 @@ export default {
     return {
       note,
       onNoteUpdate,
-      onNoteUpdate2,
+      onContentUpdate,
       saveNote,
     };
   },
