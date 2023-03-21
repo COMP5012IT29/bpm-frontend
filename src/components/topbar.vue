@@ -18,6 +18,9 @@
     <v-btn icon>
       <v-icon>mdi-account</v-icon>
     </v-btn>
+    <v-btn icon @click="logout">
+      <v-icon>mdi-logout</v-icon>
+    </v-btn>
   </v-app-bar>
 </template>
 
@@ -35,8 +38,17 @@ export default {
       store.commit('del_currentnote');
       router.push('/newnote');
     }
+    function logout() {
+      store.commit('del_username');
+      store.commit('del_token');
+      store.commit('del_currentnote');
+      store.commit('del_currentnotepwd');
+
+      router.push('/login');
+    }
     return {
       newNote,
+      logout,
     }
   },
 }

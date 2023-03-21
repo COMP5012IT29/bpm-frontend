@@ -78,9 +78,9 @@ export default {
         if (response.data.msg === 'Success') {
           store.commit('set_username', response.data.username);
           store.commit('set_token', response.data.token.access);
-          alert('登录成功');
+          alert('Login Success');
+          await router.push('/newnote')
         } else {
-          store.commit('response', response.data);
           store.commit('del_username');
         }
       } catch (error) {
