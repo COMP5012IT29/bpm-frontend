@@ -25,14 +25,14 @@
 import Editor from "@/components/CurNoteEditor.vue";
 import Topbar from "@/components/topbar.vue";
 import Menu from "@/components/Menu.vue";
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import axios from "axios";
 import {useStore} from "vuex";
 import NoteInfo from "@/components/NoteInfo.vue";
 import router from "@/router";
 
 export default {
-  components: {NoteInfo, Menu, Topbar, Editor},
+  components: {computed, NoteInfo, Menu, Topbar, Editor},
   name: "Note",
   setup() {
     const store = useStore();
@@ -45,6 +45,7 @@ export default {
       password: store.getters.getCurrentNotePwd,
       hint:""
     });
+    const computedNotes = computed(() => note.value);
 
     onMounted(() => {
       axios.post(store.state.host + 'viewNote/', {
@@ -91,7 +92,7 @@ export default {
               "tag":note.value.tag,
             }
         );
-        alert('Successfully add new note')
+        alert('Successfully edit the note')
         router.go(0);
       } catch (error) {
         console.error(error);
@@ -118,7 +119,7 @@ export default {
       }
 
     return {
-      note,
+      note: computedNotes,
       onNoteUpdate,
       saveNote,
       onContentUpdate,
