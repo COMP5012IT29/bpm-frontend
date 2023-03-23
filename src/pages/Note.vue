@@ -43,28 +43,36 @@ export default {
       date: "",
       stared: false,
       password: store.getters.getCurrentNotePwd,
-      hint:""
+      hint: ""
     });
     const computedNotes = computed(() => note.value);
 
     onMounted(() => {
       axios.post(store.state.host + 'viewNote/', {
-        note_id: store.getters.getCurrentNote,
-        password: store.getters.getCurrentNotePwd,
-      }).then((res) => {
+            note_id: store.getters.getCurrentNote,
+            password: store.getters.getCurrentNotePwd,
+          }, {
+            headers: {
+              Authorization: 'Bearer ' + store.getters.getToken
+            }
+          }
+      ).then((res) => {
         if (res.data.msg === 'success') {
           note.value = res.data.data
           note.value.password = store.getters.getCurrentNotePwd
           note.value.content = note.value.content || '';
-        }
-        else if (res.data.msg === 'Wrong password'){
+        } else if (res.data.msg === 'Wrong password') {
           alert('Wrong password')
         }
       }).catch((err) => {
         console.log(err);
       });
 
-      axios.get(store.state.host + 'showHint?note_id=' + store.getters.getCurrentNote)
+      axios.get(store.state.host + 'showHint?note_id=' + store.getters.getCurrentNote, {
+        headers: {
+          Authorization: 'Bearer ' + store.getters.getToken
+        }
+      })
           .then(response => {
             note.value.hint = response.data.data;
           })
@@ -76,6 +84,7 @@ export default {
     function onNoteUpdate(updatedNote) {
       note.value = updatedNote;
     }
+
     function onContentUpdate(updatedContent) {
       note.value.content = updatedContent;
     }
@@ -85,11 +94,15 @@ export default {
         const response = await axios.post(store.state.host + 'editNote/',
             {
               "note_id": store.getters.getCurrentNote,
-              "password":note.value.password,
-              "title":note.value.title,
-              "content":note.value.content,
-              "hint":note.value.hint,
-              "tag":note.value.tag,
+              "password": note.value.password,
+              "title": note.value.title,
+              "content": note.value.content,
+              "hint": note.value.hint,
+              "tag": note.value.tag,
+            }, {
+              headers: {
+                Authorization: 'Bearer ' + store.getters.getToken
+              }
             }
         );
         alert('Successfully edit the note')
@@ -99,24 +112,28 @@ export default {
       }
     };
 
-    function recycleNote(){
-        const response = axios.post(store.state.host + 'recycle/',
-            {
-              "note_id": parseInt(store.getters.getCurrentNote)
+    function recycleNote() {
+      const response = axios.post(store.state.host + 'recycle/',
+          {
+            "note_id": parseInt(store.getters.getCurrentNote)
+          }, {
+            headers: {
+              Authorization: 'Bearer ' + store.getters.getToken
             }
-        ).then(response => {
-          if(response.data.msg==='success'){
-            alert('Successfully put the note in the trash')
-            setTimeout(() => {
-              store.commit('del_currentnotepwd')
-              store.commit('del_currentnote')
-              router.push('/newnote');
-            }, 500);
           }
-        }).catch(error => {
-          console.log(error);
-        });
-      }
+      ).then(response => {
+        if (response.data.msg === 'success') {
+          alert('Successfully put the note in the trash')
+          setTimeout(() => {
+            store.commit('del_currentnotepwd')
+            store.commit('del_currentnote')
+            router.push('/newnote');
+          }, 500);
+        }
+      }).catch(error => {
+        console.log(error);
+      });
+    }
 
     return {
       note: computedNotes,
@@ -130,7 +147,7 @@ export default {
 </script>
 
 <style scoped>
-.v-btn{
-  margin:10px;
+.v-btn {
+  margin: 10px;
 }
 </style>

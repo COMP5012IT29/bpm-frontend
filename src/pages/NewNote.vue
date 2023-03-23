@@ -62,6 +62,10 @@ export default {
               "content":note.value.content,
               "hint":note.value.hint,
               "tag":note.value.tag,
+            }, {
+              headers: {
+                Authorization: 'Bearer ' + store.getters.getToken
+              }
             }
         );
         alert('Successfully add new note')

@@ -45,6 +45,10 @@ export default {
         const response = await axios.post(store.state.host + 'search/', {
           'type':parseInt(type, 10),
           'keyword':keyword,
+        }, {
+          headers: {
+            Authorization: 'Bearer ' + store.getters.getToken
+          }
         });
         if (response.data.msg === 'Success') {
           return response.data.data;

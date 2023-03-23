@@ -57,7 +57,12 @@ export default {
       try {
         const response = await axios.post(store.state.host + 'starNote/', {
           note_id: store.getters.getCurrentNote,
-        });
+        },{
+          headers: {
+            Authorization: 'Bearer ' + store.getters.getToken
+          }
+        }
+        );
 
         if (response.data.msg === 'success') {
           props.note.stared = !props.note.stared

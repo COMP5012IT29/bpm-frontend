@@ -2,8 +2,8 @@ import { createStore } from 'vuex'
 
 const store = createStore({
     state: {
-        // host: "http://127.0.0.1:8000/api/",
-        host: "http://note.chnnhc.com/api/",
+        host: "http://127.0.0.1:8000/api/",
+        // host: "http://note.chnnhc.com/api/",
         token: null,
         currentNote: null,
         currentNotePwd: null,
@@ -12,7 +12,6 @@ const store = createStore({
     },
     getters: {
         getToken() {
-
             return localStorage.getItem("token");
         },
         getUsername() {

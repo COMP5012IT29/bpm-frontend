@@ -35,7 +35,11 @@ export default {
     const computedNotes = computed(() => notes.value);
 
     function getDeleteNoteList() {
-      axios.get(store.state.host + 'showNoteList?username=' + username + '&type=' + 3)
+      axios.get(store.state.host + 'showNoteList?username=' + username + '&type=' + 3, {
+        headers: {
+          Authorization: 'Bearer ' + store.getters.getToken
+        }
+      })
           .then(response => {
             notes.value = response.data.data;
           })
@@ -46,10 +50,14 @@ export default {
 
     async function restoreNote(noteId) {
       try {
-        console.log(noteId)
         const response = await axios.post(store.state.host + 'recoverNote/', {
-            note_id: noteId
-        });
+          note_id: noteId,
+        }, {
+          headers: {
+            Authorization: 'Bearer ' + store.getters.getToken
+          }
+        }
+        );
         if (response.data.status === 0) {
           alert('Recover note successfully');
           await router.go(0);
@@ -66,6 +74,9 @@ export default {
         const response = await axios.delete(store.state.host + 'deleteNote/', {
           data: {
             note_id: noteId
+          },
+          headers: {
+            Authorization: 'Bearer ' + store.getters.getToken
           }
         });
 
@@ -99,6 +110,7 @@ export default {
   margin-right: 10px;
   font-size: 10px;
 }
+
 .empty-result {
   display: flex;
   justify-content: center;

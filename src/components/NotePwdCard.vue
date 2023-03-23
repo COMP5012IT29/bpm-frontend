@@ -45,7 +45,11 @@ export default {
     const pwd = ref();
 
     onMounted(() => {
-      axios.get(store.state.host + 'showHint?note_id=' + currentNote)
+      axios.get(store.state.host + 'showHint?note_id=' + currentNote,{
+        headers: {
+          Authorization: 'Bearer ' + store.getters.getToken
+        }
+      })
           .then(response => {
             hint.value = response.data.data;
           })

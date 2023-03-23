@@ -53,7 +53,14 @@ export default {
     });
 
     function getNoteList(type){
-      axios.get(store.state.host + 'showNoteList?username=' + username + '&type=' + type)
+      axios.get(
+          store.state.host + 'showNoteList?username=' + username + '&type=' + type,{
+            headers: {
+              Authorization: 'Bearer ' + store.getters.getToken
+            }
+          }
+      )
+
           .then(response => {
             notes.value = response.data.data;
 

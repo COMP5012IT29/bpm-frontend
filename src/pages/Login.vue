@@ -81,6 +81,7 @@ export default {
           alert('Login Success');
           await router.push('/newnote')
         } else {
+          alert('User not exist or wrong password')
           store.commit('del_username');
         }
       } catch (error) {

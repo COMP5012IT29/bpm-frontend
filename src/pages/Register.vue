@@ -4,27 +4,27 @@
       <v-row>
         <v-col cols="8" offset="1" class="form-container">
           <v-row no-gutters style="margin-bottom: 10px">
-            <v-col cols="4" class="input-label"> <p style="margin-right: 80px">Username:</p> </v-col>
+            <v-col cols="4" class="input-label"><p style="margin-right: 80px">Username:</p></v-col>
             <v-col cols="8">
-              <v-text-field v-model="username" class="input-field" hide-details="auto" solo />
-            </v-col>
-          </v-row>
-          <v-row no-gutters  style="margin-bottom: 10px">
-            <v-col cols="4" class="input-label"> <p style="margin-right: 80px">Password:</p> </v-col>
-            <v-col cols="8">
-              <v-text-field v-model="password" class="input-field" hide-details="auto" solo type="password" />
+              <v-text-field v-model="username" class="input-field" hide-details="auto" solo/>
             </v-col>
           </v-row>
           <v-row no-gutters style="margin-bottom: 10px">
-            <v-col cols="4" class="input-label"> <p style="margin-right: 80px">Email:</p> </v-col>
+            <v-col cols="4" class="input-label"><p style="margin-right: 80px">Password:</p></v-col>
             <v-col cols="8">
-              <v-text-field v-model="email" class="input-field" hide-details="auto" solo type="email" />
+              <v-text-field v-model="password" class="input-field" hide-details="auto" solo type="password"/>
             </v-col>
           </v-row>
           <v-row no-gutters style="margin-bottom: 10px">
-            <v-col cols="4" class="input-label"> <p style="margin-right: 80px">Phone:</p> </v-col>
+            <v-col cols="4" class="input-label"><p style="margin-right: 80px">Email:</p></v-col>
             <v-col cols="8">
-              <v-text-field v-model="phone" class="input-field" hide-details="auto" solo />
+              <v-text-field v-model="email" class="input-field" hide-details="auto" solo type="email"/>
+            </v-col>
+          </v-row>
+          <v-row no-gutters style="margin-bottom: 10px">
+            <v-col cols="4" class="input-label"><p style="margin-right: 80px">Phone:</p></v-col>
+            <v-col cols="8">
+              <v-text-field v-model="phone" class="input-field" hide-details="auto" solo/>
             </v-col>
           </v-row>
           <v-row no-gutters>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import {ref} from 'vue';
 import axios from 'axios';
 import router from "@/router";
 import {useStore} from "vuex";
@@ -66,14 +66,17 @@ export default {
           password: password.value,
           email: email.value,
           phone: phone.value,
+        }, {
+          headers: {
+            Authorization: 'Bearer ' + store.getters.getToken
+          }
         });
         if (response.data.msg === 'success') {
           alert('Register successfully');
           setTimeout(() => {
             router.go(-1);
           }, 500);
-        }
-        else{
+        } else {
           alert(response.data.msg)
         }
       } catch (error) {
@@ -81,6 +84,7 @@ export default {
         alert('Registration failed');
       }
     }
+
     function backtoLogin() {
       router.push('/login');
     }
